@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Veux-tu être ma Valentine ?</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #ffebee;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            overflow: hidden;
+            transition: background-color 0.5s ease;
+        }
+
+        .container {
+            text-align: center;
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            position: relative;
+            transition: all 0.5s ease;
+            max-width: 90%;
+            overflow-y: auto;
+            max-height: 90vh;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #e91e63;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.5em;
+            color: #555;
+            margin-bottom: 30px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 1.2em;
+            color: #fff;
+            background-color: #e91e63;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button#oui {
+            background-color: #e91e63;
+        }
+
+        button#non {
+            background-color: #555;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+        }
+
+        .heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #e91e63;
+            transform: rotate(-45deg);
+            animation: float 5s infinite ease-in-out;
+        }
+
+        .heart::before,
+        .heart::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #e91e63;
+            border-radius: 50%;
+        }
+
+        .heart::before {
+            top: -10px;
+            left: 0;
+        }
+
+        .heart::after {
+            top: 0;
+            left: 10px;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(-45deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(-45deg);
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .message {
+            font-size: 2em;
+            color: #e91e63;
+            margin-top: 20px;
+        }
+
+        a {
+            color: #e91e63;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Thème orage */
+        .storm-theme {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+        }
+
+        .storm-theme .container {
+            background-color: #34495e;
+            color: #ecf0f1;
+        }
+
+        .storm-theme h1 {
+            color: #e74c3c;
+        }
+
+        .storm-theme p {
+            color: #bdc3c7;
+        }
+
+        .storm-theme button {
+            background-color: #e74c3c;
+        }
+
+        .storm-theme button:hover {
+            background-color: #c0392b;
+        }
+
+        .images-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .images-container img {
+            max-width: 150px;
+            border-radius: 10px;
+        }
+
+        .vs-text {
+            font-size: 2em;
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .gallery img {
+            width: 100%;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery img:hover {
+            transform: scale(1.1);
+        }
+
+        .video-container {
+            margin-top: 20px;
+        }
+
+        .video-container iframe {
+            width: 100%;
+            height: 200px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 10px;
+        }
+
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: #fff;
+            font-size: 2em;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Phase 1 : Demande de Saint-Valentin -->
+        <div id="phase1">
+            <h1>❤️ Veux-tu être ma Valentine ? ❤️</h1>
+            <p id="message">Clique sur le bouton pour me donner ta réponse !</p>
+            <div class="buttons">
+                <button id="oui" onclick="showResponse()">Oui !</button>
+                <button id="non" onclick="handleNon()">Non</button>
+            </div>
+            <div id="response" class="hidden">
+                <p class="message">Youpi ! Tu es la meilleure ! 😘❤️</p>
+            </div>
+        </div>
+
+        <!-- Phase 2 : Combat contre Oupi Goupi -->
+        <div id="phase2" class="hidden">
+            <h1>Oupi Goupi : Combat de Saint-Valentin !</h1>
+            <p id="combat-message">Oupi Goupi : Bonsoir Thelma, j'ai appris que t'as accepté la proposition d'Axel pour la Saint-Valentin, je ne peux pas accepter cela, prépare-toi nous allons nous battre.</p>
+            <div class="images-container">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRt1mLXHsGeBwbqBkgPWlqG4kFFf6l3-GKHOw&s" alt="Oupi Goupi">
+            </div>
+            <div class="buttons">
+                <button onclick="attaquer()">Attaquer : retire 25PV à Oupi Goupi</button>
+                <button onclick="appelerCoéquipier()">Appeler le coéquipier mystère</button>
+            </div>
+        </div>
+
+        <!-- Phase 3 : Arrivée de Gnoucchi -->
+        <div id="phase3" class="hidden">
+            <h1>Gnoucchi à la rescousse !</h1>
+            <p>Gnoucchi arriva pour sauver la Saint-Valentin de Thelma et Axel, sur le coup de la frayeur Oupi Goupi prit la fuite et on ne le retrouvera jamais.</p>
+            <div class="images-container">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRt1mLXHsGeBwbqBkgPWlqG4kFFf6l3-GKHOw&s" alt="Oupi Goupi">
+                <span class="vs-text">VS</span>
+                <img src="https://cdn.discordapp.com/attachments/1287965513833644066/1337841522959454328/image.png?ex=67a8e982&is=67a79802&hm=999b8baf1170542e281ddc0822ff4e492823317e2df4396edf68f4e1423a5c0f&" alt="Gnoucchi">
+            </div>
+            <div class="buttons">
+                <button onclick="retourSaintValentin()">Continuer</button>
+            </div>
+        </div>
+
+        <!-- Phase 4 : Galerie de souvenirs -->
+        <div id="phase4" class="hidden">
+            <h1>Merci d'avoir accepté ma proposition qui propositionne notre Saint-Valentin ❤️</h1>
+            <p>Voici une galerie de quelques screens de l'époque <3</p>
+            <div class="gallery">
+                <img src="https://cdn.discordapp.com/attachments/1287965513833644066/1337843339625627658/VALORANT-Win64-Shipping_xAp85a2m1P.png?ex=67a8eb34&is=67a799b4&hm=52147d3855ef8eb5a5a06d49aa0ce1ec3bf20102557de5fcf14b08ea3d36e79a&" alt="Screenshot 1">
+                <img src="https://cdn.discordapp.com/attachments/1287965513833644066/1337844311403921409/VALORANT-Win64-Shipping_8I2DRHv1sD.png?ex=67a8ec1b&is=67a79a9b&hm=de411de6c2c08aa502ea58aad0d3534db471e83337647b3a9c3a744bf000c8d5&" alt="Screenshot 2">
+                <img src="https://cdn.discordapp.com/attachments/1287965513833644066/1337847151748972647/VALORANT-Win64-Shipping_UasaNGib76.png?ex=67a8eec0&is=67a79d40&hm=8fd1a7fd8bf807146e1f8b28570025ce739cf9761270e7cf9b8c2823582bc4c0&" alt="Screenshot 3">
+                <img src="https://cdn.discordapp.com/attachments/1287965513833644066/1337847612900114504/Discord_mCGoPowA3c.png?ex=67a8ef2e&is=67a79dae&hm=b4cf7d8e20413bd387446aec6053a8a3720e3ffdcfaecc3a43fe99075c1ce746&" alt="Screenshot 4">
+                <img src="https://cdn.discordapp.com/attachments/1287965513833644066/1337847978098167879/GTA5_IitwhjB6eD.jpg?ex=67a8ef85&is=67a79e05&hm=ab45778f4d235c829aadcbf3df380c925c6788cbd303faa449a2975ed3185e01&" alt="Screenshot 5">
+                <img src="https://cdn.discordapp.com/attachments/1287965513833644066/1337848917382922271/Discord_CGIZmIWIhC.png?ex=67a8f065&is=67a79ee5&hm=dcd4baae6ca01385dacbbb4ee8add7a8479410b936ab623cc409110f38677ecc&" alt="Screenshot 6">
+                <img src="https://cdn.discordapp.com/attachments/1287965513833644066/1337849004641484880/Discord_GT3JgnlRoR.png?ex=67a8f07a&is=67a79efa&hm=be35fa5073eb12f937efa418cb4a1e71c276636f47afbeb923633687ca136fdf&" alt="Screenshot 7">
+                <img src="https://cdn.discordapp.com/attachments/1287965513833644066/1337851854998081626/Discord_uzBFfaQ5wm.png?ex=67a8f322&is=67a7a1a2&hm=b0f65dd9530ba0b579101f52522849b47b2a7d448fdcd2bfae9515b5d84a6148&" alt="Screenshot 8">
+            </div>
+            <div class="video-container">
+                <h2>Quelques vidéos :</h2>
+                <iframe src="https://www.youtube.com/embed/xXiSyaF6-Z4" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <iframe src="https://www.youtube.com/embed/INiSa6BPyAI" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        </div>
+
+        <!-- Modal pour zoomer sur les images -->
+        <div id="modal" class="modal">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <img id="modal-img" src="" alt="Zoomed Image">
+        </div>
+    </div>
+
+    <!-- Cœurs flottants -->
+    <div class="heart" style="top: 10%; left: 20%;"></div>
+    <div class="heart" style="top: 20%; left: 50%;"></div>
+    <div class="heart" style="top: 30%; left: 80%;"></div>
+    <div class="heart" style="top: 40%; left: 10%;"></div>
+    <div class="heart" style="top: 50%; left: 70%;"></div>
+    <div class="heart" style="top: 60%; left: 30%;"></div>
+    <div class="heart" style="top: 70%; left: 90%;"></div>
+    <div class="heart" style="top: 80%; left: 40%;"></div>
+
+    <script>
+        const messagesNon = [
+            "Le savais-tu ? Appuyer sur oui te rendra 100% plus heureuse instantanément !",
+            "Ah, tu le savais-déjà-tu.. d'accord.. pas grave... tu peux toujours mettre oui pour me faire plaisir !",
+            "C'est bizarre t'as encore appuyé sur non, t'as dû pas faire exprès ^^",
+            "Bon, t'as l'air dur en affaire... voici un cadeau qui te fera changer d'avis : <a href='https://maps.app.goo.gl/UxyxA4n35yQxQpDYA' target='_blank'>Appuie-ici</a>"
+        ];
+        let compteurNon = 0;
+
+        function showResponse() {
+            document.getElementById('phase1').classList.add('hidden');
+            document.getElementById('phase2').classList.remove('hidden');
+            document.body.classList.add('storm-theme');
+        }
+
+        function handleNon() {
+            const boutonNon = document.getElementById('non');
+            const message = document.getElementById('message');
+
+            // Réduire la taille du bouton "Non"
+            boutonNon.style.width = `${parseInt(window.getComputedStyle(boutonNon).width) - 20}px`;
+            boutonNon.style.height = `${parseInt(window.getComputedStyle(boutonNon).height) - 10}px`;
+
+            // Changer le message
+            message.innerHTML = messagesNon[compteurNon % messagesNon.length];
+            compteurNon++;
+
+            // Si on arrive au dernier message, supprimer le bouton "Non"
+            if (compteurNon >= messagesNon.length) {
+                boutonNon.remove(); // Supprime le bouton "Non"
+            }
+        }
+
+        function attaquer() {
+            alert("Oupi Goupi a perdu 25 PV !");
+        }
+
+        function appelerCoéquipier() {
+            document.getElementById('phase2').classList.add('hidden');
+            document.getElementById('phase3').classList.remove('hidden');
+        }
+
+        function retourSaintValentin() {
+            document.getElementById('phase3').classList.add('hidden');
+            document.getElementById('phase4').classList.remove('hidden');
+            document.body.classList.remove('storm-theme');
+        }
+
+        // Fonction pour ouvrir le modal avec l'image zoomée
+        function openModal(src) {
+            const modal = document.getElementById('modal');
+            const modalImg = document.getElementById('modal-img');
+            modal.style.display = 'flex';
+            modalImg.src = src;
+        }
+
+        // Fonction pour fermer le modal
+        function closeModal() {
+            const modal = document.getElementById('modal');
+            modal.style.display = 'none';
+        }
+
+        // Ajouter un événement de clic à toutes les images de la galerie
+        const images = document.querySelectorAll('.gallery img');
+        images.forEach(img => {
+            img.addEventListener('click', () => openModal(img.src));
+        });
+    </script>
+</body>
+</html>
