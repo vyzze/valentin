@@ -10,15 +10,23 @@
             margin: 40px;
         }
         p {
-            margin-bottom: 25px; /* Espacement entre les liens */
+            margin-bottom: 25px;
         }
-        a {
+        a, button {
             text-decoration: none;
             color: #007BFF;
             font-size: 18px;
+            background: none;
+            border: none;
+            cursor: pointer;
         }
-        a:hover {
+        a:hover, button:hover {
             text-decoration: underline;
+        }
+        video {
+            margin-top: 30px;
+            max-width: 100%;
+            display: none; /* Cachée au départ */
         }
     </style>
 </head>
@@ -26,46 +34,41 @@
     <h1>Liens de redirection</h1>
 
     <p>
-        <a href="https://08e1535afe5ee41d2524da81973b194a.r2.cloudflarestorage.com/guillaume/SERIES/66732/VF/S05/08.mp4?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=846b34a190cf588b45665a430b437eec%2F20260209%2Fauto%2Fs3%2Faws4_request&X-Amz-Date=20260209T160239Z&X-Amz-SignedHeaders=host&X-Amz-Expires=39441&X-Amz-Signature=382329918a25cf559813c0d0ab26a7cabb61d4b5bc3edc2987db406eca597750" target="_blank">
+        <a href="https://08e1535afe5ee41d2524da81973b194a.r2.cloudflarestorage.com/guillaume/SERIES/66732/VF/S05/08.mp4" target="_blank">
             EP8 S5 SOURCE1
         </a>
     </p>
 
     <p>
-        <a href="https://cdn-lglttksvjqjetqih.edgeon-bandwidth.com/engine/hls2/01/09474/ymfasljbyvo6_,n,.urlset/master.m3u8?t=5ZLDLbkLborQHyZLEqMbK7QxVePSrK9UNyyOABlDb4U&s=1770913927&e=14400&f=47373093&node=+2bpgJxXD7r0sv08PpTAO10XicJpMqJ6crJQWOZy8GQ=&i=2.3&sp=2500&asn=3215&q=n&rq=GJDTXT5KfajdeweYe1uMIRp0Oi2cBc0FIDP7rBtF" target="_blank">
+        <a href="https://cdn-lglttksvjqjetqih.edgeon-bandwidth.com/engine/hls2/01/09474/ymfasljbyvo6_,n,.urlset/master.m3u8" target="_blank">
             EP4 S1 SOURCE1
         </a>
     </p>
 
     <p>
-        <a href="https://cdn-eo8n0su7c4wpwkmk.edgeon-bandwidth.com/engine/hls2-c/01/09474/7voxusthvfs2_,n,.urlset/master.m3u8?t=_TQkU9kcD_vLf2Jluc6srz5BQTwv0BI_Ma0wW1Rr-qQ&s=1770913883&e=14400&f=47373099&node=CNK4WWrubaTLiOtDbVIU9Ci4WeFvRzGKPoG7NQE/2NQ=&i=2.3&sp=2500&asn=3215&q=n&rq=GJDTXT5KfajdeweYe1uMIRp0Oi2cBc0FIDP7rBtF" target="_blank">
+        <a href="https://movix.blog/watch/tv/4aQ90XRpU7Nve9ORM4mGeKha4BnIW4u5eI9Rr/s/1/e/3" target="_blank">
             EP3 S1 SOURCE1
         </a>
     </p>
 
+    <!-- Nouveau bouton -->
+    <p>
+        <button onclick="lancerVideo()">VIDEO</button>
+    </p>
+
+    <!-- Lecteur vidéo -->
+    <video id="lecteurVideo" controls>
+        <source src="video.mp4" type="video/mp4">
+        Votre navigateur ne supporte pas la vidéo.
+    </video>
+
+    <script>
+        function lancerVideo() {
+            var video = document.getElementById("lecteurVideo");
+            video.style.display = "block";
+            video.play();
+        }
+    </script>
+
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
